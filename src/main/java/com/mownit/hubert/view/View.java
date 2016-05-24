@@ -231,7 +231,7 @@ public class View {
     private void setText(Generator gen){
         System.out.println(gen.array.length);
         for(int i=0;i<gen.array.length;i++) {
-            pane.setText(String.format(pane.getText()+"%.3f\n", gen.array[i]));
+            pane.setText(String.format(pane.getText()+"%.3f\t%.3f\n", gen.array[i], gen.array[i]));
         }
 
     }
