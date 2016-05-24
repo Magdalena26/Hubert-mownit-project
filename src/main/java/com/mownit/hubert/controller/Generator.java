@@ -1,45 +1,54 @@
 package com.mownit.hubert.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import org.mariuszgromada.math.mxparser.*;
+import java.lang.*;
+import javax.swing.*;
 
 /**
  * Created by Magda on 2016-05-09.
  */
 public class Generator {
 
-    private double x_min, x_max, ymin, ymax;
+    private double x_min, x_max;
+    String func;
     int density;
-    public List<Double> list;
+    public double[] array;
+    int tries;
+    JTextPane pane;
 
-    public Generator(double x_min, double x_max, int density){
+    public Generator(double x_min, double x_max, int density, String func){
         this.x_max=x_max;
         this.x_min=x_min;
         this.density=density;
-        list=new ArrayList<Double>();
+        this.func = func;
+        tries = (int)(x_max-x_min)/density;
     }
 
-    public void generate(){
-        int number=(int)density*((int)x_max-(int)x_min);
-        for(int i=0;i<number;i++){
-            Random rn = new Random();
-            int n = (int)x_max - (int)x_min + 1;
-            int j = rn.nextInt() % n;
-            double x=(double)j/1.234;
+    static{
+        System.load("/home/k2nder/libmyjni.so");
+    }
 
-            list.add(x);
+
+    public static native double[] rand();
+
+    public void generate() {
+
+        array=rand();
+    }
+
+    public void eval()
+    {
+        array = new double[tries+1];
+        Argument x = new Argument("x = 0");
+        Expression e = new Expression(func, x);
+        int i = 0;
+        double newx = x_min;
+        while (i<=tries)
+        {
+            x.setArgumentValue(newx);
+            array[i] = e.calculate();
+            newx = newx+density;
+            i++;
         }
-    }
-
-    public double getNumber(int i){
-        return list.get(i);
-    }
-
-    public void setX(double x) {
-        x_min=x;
-    }
-    public void setY(double y){
-        x_max=y;
     }
 }

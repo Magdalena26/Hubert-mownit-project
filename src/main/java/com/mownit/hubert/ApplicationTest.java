@@ -19,7 +19,7 @@ public class ApplicationTest {
     }
 
     public static void createGUI(){
-        new View();
+        new View(1);
     }
 
 }

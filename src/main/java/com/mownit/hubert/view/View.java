@@ -3,6 +3,8 @@ package com.mownit.hubert.view;
 import com.mownit.hubert.controller.Generator;
 import com.mownit.hubert.controller.Persister;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.StyledDocument;
@@ -18,13 +20,16 @@ import java.io.File;
  */
 public class View {
 
+    int density = 50;
     private StyledDocument document;
     private JPanel panel;
-    private Double x, y;
-    private JTextField xrange, yrange, zrange;
+    private Double xmin, xmax;
+    private String func;
+    private JTextField x_min, x_max, y_min, y_max, z_min, z_max, functionField;
     private JMenu menu;
     JTextPane pane=new JTextPane();
     JFrame frame;
+    int dim;
     private Persister persister;
     private JMenuBar menubar;
     private JPanel mainPanel;
@@ -32,10 +37,10 @@ public class View {
     private static final int defaultHeight=850;
     private static int defaultSize=18;
 
-    public View(){
+    public View(int dim){
         //init();
-
-        frame = new JFrame("Huber & Eureqa - Data Generator");
+        this.dim=dim;
+        frame = new JFrame("Hubert & Eureqa - Data Generator");
         init();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -59,7 +64,7 @@ public class View {
 
         JPanel innerPanel=new JPanel(new BorderLayout());
 
-       // JTextPane pane=new JTextPane();
+        // JTextPane pane=new JTextPane();
         pane.setSize(200, 200);
         document=pane.getStyledDocument();
         //innerPanel.add(pane);
@@ -75,12 +80,11 @@ public class View {
 
     private void createMainPanel(){
         mainPanel=new JPanel();
-        BoxLayout boxlayout1 = new BoxLayout(panel, BoxLayout.Y_AXIS);
-      //mainPanel.setLayout(boxlayout1);
+
         mainPanel.setBorder(new EmptyBorder(new Insets(10, 50, 50, 50)));
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 
-        Dimension dimension = new Dimension(50, 20);
+        Dimension dimension2 = new Dimension(20, 10);
 
         BorderLayout bl=new BorderLayout();
 
@@ -88,9 +92,9 @@ public class View {
         JLabel titleLabel=new JLabel("Data Generator");
         JLabel subtitleLabel =new JLabel("Hubert & Eureqa");
         titleLabel.setFont(new Font("Consolas", Font.BOLD, 22));
-        //subtitleLabel.setFont(new Font("Consolas", Font.BOLD, 18));
+
         titlePanel.add(titleLabel);
-       //titlePanel.add(subtitleLabel);
+
 
         mainPanel.add(titlePanel);
 
@@ -115,37 +119,32 @@ public class View {
         comboDimension.addItem(2);
         comboDimension.addItem(3);
         comboDimension.setEditable(true);
+        comboDimension.addActionListener(new ComboBoxDemo());
 
         dimensionPanel.add(dimensionLabel);
-       dimensionPanel.add(comboDimension);
+        dimensionPanel.add(comboDimension);
         mainPanel.add(dimensionPanel);
 
         JLabel l = new JLabel("<html><br></html>", SwingConstants.CENTER);
         mainPanel.add(l);
 
-        JPanel rangePanel =new JPanel(new GridLayout(1, 2));
-        JLabel rangeLabel=new JLabel("Select range      ");
+        JPanel rangePanel =new JPanel(new GridLayout(2, 1));
+        JLabel rangeLabel=new JLabel("Select range");
         JLabel gg=new JLabel("");
-        xrange=new JTextField();
+        x_min=new JTextField();
+        x_max=new JTextField();
         JPanel rangePanel2=new JPanel();
-        BoxLayout boxlayout3 = new BoxLayout(rangePanel2, BoxLayout.Y_AXIS);
-        rangePanel2.setLayout(new GridLayout(3, 2));
-        xrange.setPreferredSize(dimension);
-        JLabel xrangeLabel=new JLabel("x");
-       yrange=new JTextField();
-        yrange.setPreferredSize(dimension);
-        JLabel yrangeLabel=new JLabel("y");
-        zrange = new JTextField();
-        JLabel zrangeLabel=new JLabel("z");
-        zrange.setPreferredSize(dimension);
-        rangePanel.add(gg);
+        rangePanel2.setLayout(new GridLayout(1, 4));
+        x_min.setPreferredSize(dimension2);
+        x_max.setPreferredSize(dimension2);
+        JLabel x_minLabel=new JLabel("min");
+        JLabel x_maxLabel=new JLabel("max");
         rangePanel.add(rangeLabel);
-        rangePanel2.add(xrange );
-        rangePanel2.add(xrangeLabel);
-        rangePanel2.add(yrange);
-        rangePanel2.add(yrangeLabel);
-        rangePanel2.add(zrange);
-        rangePanel2.add(zrangeLabel);
+        rangePanel.add(gg);
+        rangePanel2.add(x_minLabel);
+        rangePanel2.add(x_min);
+        rangePanel2.add(x_maxLabel);
+        rangePanel2.add(x_max);
         rangePanel.add(rangePanel2);
 
 
@@ -155,7 +154,7 @@ public class View {
 
         JPanel functionPanel=new JPanel(new GridLayout(2, 2));
         JLabel functionLabel=new JLabel("Select function   ");
-        JTextField functionField=new JTextField();
+        functionField=new JTextField();
         functionField.setPreferredSize(new Dimension(100, 25));
         functionPanel.add(functionLabel);
         functionPanel.add(functionField);
@@ -171,6 +170,7 @@ public class View {
         slider.setPaintLabels(true);
 
         slider.setLabelTable(slider.createStandardLabels(10));
+        slider.addChangeListener(new SliderListener());
 
         densityPanel.add(densityLabel);
         densityPanel.add(slider);
@@ -191,34 +191,47 @@ public class View {
 
 
     private boolean getTextFromFields(){
-        if(xrange.getText().equals("")){
-            try{
-                x=Double.parseDouble(xrange.getText());
-            }catch(NumberFormatException e){
-                return false;
-            }
-        }else{
-            x=(double)0;
+        if(x_min.getText().equals("")){
+            xmin=0.0;
         }
-
-        if(yrange.getText().equals("")){
+        else
+        {
             try{
-                y=Double.parseDouble(xrange.getText());
+                xmin=Double.parseDouble(x_min.getText());
             }catch(NumberFormatException e){
                 return false;
             }
+        }
+        if(x_max.getText().equals("")){
+            xmax=0.0;
+        }
+        else
+        {
+            try{
+                xmax=Double.parseDouble(x_max.getText());
+            }catch(NumberFormatException e){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean getTextFromFunction(){
+        if(functionField.getText().equals("")){
+            func = "";
         }else{
-            y=(double)100;
+            func = functionField.getText();
         }
         return true;
 
     }
 
+
+
     private void setText(Generator gen){
-        System.out.println(gen.list.size());
-        for(int i=0;i<gen.list.size();i++) {
-            pane.setText(String.format(pane.getText()+"%.3f\n", gen.getNumber(i)));
-            //pane.setText("bjbj\n");
+        System.out.println(gen.array.length);
+        for(int i=0;i<gen.array.length;i++) {
+            pane.setText(String.format(pane.getText()+"%.3f\n", gen.array[i]));
         }
 
     }
@@ -276,7 +289,7 @@ public class View {
 
         // mnemonic can be added to the action
 
-       JMenuItem aboutAction=new JMenuItem("About program");
+        JMenuItem aboutAction=new JMenuItem("About program");
         helpMenu.add(aboutAction);
 
         menubar.add(helpMenu);
@@ -288,17 +301,35 @@ public class View {
         public void actionPerformed(ActionEvent e) {
 
             System.out.println(getTextFromFields());
-                if(!getTextFromFields()){
-                    JOptionPane.showMessageDialog(frame, "WTF",
-                            "wArinnig!!!", JOptionPane.ERROR_MESSAGE);
+            System.out.println(getTextFromFunction());
+            if(!getTextFromFields()){
+                JOptionPane.showMessageDialog(frame, "WTF",
+                        "wArinnig!!!", JOptionPane.ERROR_MESSAGE);
 
             }else{
-                Generator generator = new Generator(x, y, 1);
-                    generator.setX(x);
-                    generator.setY(y);
-                    generator.generate();
+                Generator generator = new Generator(xmin, xmax, density, func);
+                generator.eval();
+                //generator.generate();
                 setText(generator);
-                    System.out.println("ss");
+            }
+        }
+    }
+    class ComboBoxDemo implements ActionListener {
+
+        public void actionPerformed (ActionEvent e){
+            JComboBox cb = (JComboBox)e.getSource();
+            String dim = (String)cb.getSelectedItem();
+            int dim2 = Integer.parseInt(dim);
+            frame.dispose();
+            new View(dim2);
+        }
+    }
+    class SliderListener implements ChangeListener {
+
+        public void stateChanged(ChangeEvent e) {
+            JSlider source = (JSlider)e.getSource();
+            if (!source.getValueIsAdjusting()) {
+                density = (int)source.getValue();
             }
         }
     }
