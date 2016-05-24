@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9040424e-a38b-4f67-8737-a3eac89c8462" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mownit/hubert/ApplicationTest.class" afterPath="$PROJECT_DIR$/target/classes/com/mownit/hubert/ApplicationTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mownit/hubert/controller/Generator.class" afterPath="$PROJECT_DIR$/target/classes/com/mownit/hubert/controller/Generator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$1.class" afterPath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$2.class" afterPath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$3.class" afterPath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$4.class" afterPath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$ButtonListener.class" afterPath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View$ButtonListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View.class" afterPath="$PROJECT_DIR$/target/classes/com/mownit/hubert/view/View.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Mownit Project.iml" afterPath="$PROJECT_DIR$/Mownit Project.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mownit/hubert/ApplicationTest.java" afterPath="$PROJECT_DIR$/src/main/java/com/mownit/hubert/ApplicationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mownit/hubert/controller/Generator.java" afterPath="$PROJECT_DIR$/src/main/java/com/mownit/hubert/controller/Generator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mownit/hubert/view/View.java" afterPath="$PROJECT_DIR$/src/main/java/com/mownit/hubert/view/View.java" />
     </list>
     <ignored path="Mownit Project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,8 +95,8 @@
       <file leaf-file-name="ApplicationTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mownit/hubert/ApplicationTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.446281">
-              <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.56528926">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding>
                 <element signature="e#389#390#0" expanded="true" />
                 <element signature="e#416#417#0" expanded="true" />
@@ -746,12 +748,19 @@
       <workItem from="1462884459362" duration="3646000" />
       <workItem from="1463238530825" duration="66000" />
       <workItem from="1463303830250" duration="645000" />
-      <workItem from="1464095921415" duration="248000" />
+      <workItem from="1464095921415" duration="339000" />
     </task>
+    <task id="LOCAL-00001" summary="1dim">
+      <created>1464096207471</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1464096207471</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24710000" />
+    <option name="totallyTimeSpent" value="24801000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
@@ -794,6 +803,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1dim" />
+    <option name="LAST_COMMIT_MESSAGE" value="1dim" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1175,8 +1188,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mownit/hubert/ApplicationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.446281">
-          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.56528926">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
             <element signature="e#389#390#0" expanded="true" />
             <element signature="e#416#417#0" expanded="true" />
