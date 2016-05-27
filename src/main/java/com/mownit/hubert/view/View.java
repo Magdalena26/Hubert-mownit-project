@@ -245,6 +245,12 @@ public class View {
                 return false;
             }
         }
+        if(xmin>xmax)
+        {
+            JOptionPane.showMessageDialog(frame, "Parameter xmax should be > than xmin",
+                    "Parameter x error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         if(!y_min.getText().equals("")){
             try{
                 ymin=Double.parseDouble(y_min.getText());
@@ -263,6 +269,12 @@ public class View {
                 return false;
             }
         }
+        if(ymin>ymax)
+        {
+            JOptionPane.showMessageDialog(frame, "Parameter ymax should be > than ymin",
+                    "Parameter y error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         if(!z_min.getText().equals("")){
             try{
                 zmin=Double.parseDouble(z_min.getText());
@@ -280,6 +292,12 @@ public class View {
                         "Parameter zmax error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
+        }
+        if(zmin>zmax)
+        {
+            JOptionPane.showMessageDialog(frame, "Parameter zmax should be > than zmin",
+                    "Parameter z error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
         return true;
     }
