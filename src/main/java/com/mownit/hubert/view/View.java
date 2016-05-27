@@ -20,7 +20,7 @@ import java.io.File;
  */
 public class View {
 
-    int density = 50;
+    int density = 1;
     private StyledDocument document;
     private JPanel panel;
     private Double xmin, xmax, ymin, ymax, zmin, zmax;
@@ -136,12 +136,12 @@ public class View {
 
         JPanel rangePanel =new JPanel(new GridLayout(2, 2));
         JLabel rangeLabel=new JLabel("Select range   ");
-        x_min=new JTextField("");
-        x_max=new JTextField("");
-        y_min=new JTextField("");
-        y_max=new JTextField("");
-        z_min=new JTextField("");
-        z_max=new JTextField("");
+        x_min=new JTextField("0");
+        x_max=new JTextField("0");
+        y_min=new JTextField("0");
+        y_max=new JTextField("0");
+        z_min=new JTextField("0");
+        z_max=new JTextField("0");
         JPanel rangePanel2=new JPanel();
         if(dim==2) {
             rangePanel2.setLayout(new GridLayout(1, 4));
@@ -203,7 +203,7 @@ public class View {
 
         JPanel densityPanel=new JPanel(new GridLayout(2, 2));
         JLabel densityLabel=new JLabel("Select density %  ");
-        JSlider slider=new JSlider(JSlider.HORIZONTAL, 1, 100, 50);
+        JSlider slider=new JSlider(JSlider.HORIZONTAL, 1, 100, 1);
         slider.setMinorTickSpacing(5);
         slider.setMajorTickSpacing(25);
         slider.setPaintTicks(true);
