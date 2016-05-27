@@ -23,7 +23,7 @@ public class View {
     int density = 50;
     private StyledDocument document;
     private JPanel panel;
-    private Double xmin, xmax;
+    private Double xmin, xmax, ymin, ymax, zmin, zmax;
     private String func;
     private JTextField x_min, x_max, y_min, y_max, z_min, z_max, functionField;
     private JMenu menu;
@@ -38,8 +38,13 @@ public class View {
     private static int defaultSize=18;
 
     public View(int dim){
-        //init();
         this.dim=dim;
+        this.xmin = 0.0;
+        this.xmax = 0.0;
+        this.ymin = 0.0;
+        this.ymax = 0.0;
+        this.zmin = 0.0;
+        this.zmax = 0.0;
         frame = new JFrame("Hubert & Eureqa - Data Generator");
         init();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,10 +120,11 @@ public class View {
         JPanel dimensionPanel =new JPanel(new GridLayout(2, 2));
         JLabel dimensionLabel=new JLabel("Select dimension      ");
         JComboBox<Integer> comboDimension= new JComboBox<Integer>();
-        comboDimension.addItem(1);
         comboDimension.addItem(2);
         comboDimension.addItem(3);
+        comboDimension.addItem(4);
         comboDimension.setEditable(true);
+        comboDimension.setSelectedIndex(dim-2);
         comboDimension.addActionListener(new ComboBoxDemo());
 
         dimensionPanel.add(dimensionLabel);
@@ -128,23 +134,57 @@ public class View {
         JLabel l = new JLabel("<html><br></html>", SwingConstants.CENTER);
         mainPanel.add(l);
 
-        JPanel rangePanel =new JPanel(new GridLayout(2, 1));
-        JLabel rangeLabel=new JLabel("Select range");
-        JLabel gg=new JLabel("");
-        x_min=new JTextField();
-        x_max=new JTextField();
+        JPanel rangePanel =new JPanel(new GridLayout(2, 2));
+        JLabel rangeLabel=new JLabel("Select range   ");
+        x_min=new JTextField("");
+        x_max=new JTextField("");
+        y_min=new JTextField("");
+        y_max=new JTextField("");
+        z_min=new JTextField("");
+        z_max=new JTextField("");
         JPanel rangePanel2=new JPanel();
-        rangePanel2.setLayout(new GridLayout(1, 4));
+        if(dim==2) {
+            rangePanel2.setLayout(new GridLayout(1, 4));
+        }
+        else if(dim==3)
+        {
+            rangePanel2.setLayout(new GridLayout(2, 4));
+        }
+        else if (dim==4)
+        {
+            rangePanel2.setLayout(new GridLayout(3, 4));
+        }
         x_min.setPreferredSize(dimension2);
         x_max.setPreferredSize(dimension2);
-        JLabel x_minLabel=new JLabel("min");
-        JLabel x_maxLabel=new JLabel("max");
+        JLabel x_minLabel=new JLabel("x min");
+        JLabel x_maxLabel=new JLabel("x max");
+        y_min.setPreferredSize(dimension2);
+        y_max.setPreferredSize(dimension2);
+        JLabel y_minLabel=new JLabel("y min");
+        JLabel y_maxLabel=new JLabel("y max");
+        z_min.setPreferredSize(dimension2);
+        z_max.setPreferredSize(dimension2);
+        JLabel z_minLabel=new JLabel("z min");
+        JLabel z_maxLabel=new JLabel("z max");
         rangePanel.add(rangeLabel);
-        rangePanel.add(gg);
         rangePanel2.add(x_minLabel);
         rangePanel2.add(x_min);
         rangePanel2.add(x_maxLabel);
         rangePanel2.add(x_max);
+        if (dim==3 || dim==4)
+        {
+            rangePanel2.add(y_minLabel);
+            rangePanel2.add(y_min);
+            rangePanel2.add(y_maxLabel);
+            rangePanel2.add(y_max);
+        }
+        if (dim==4)
+        {
+            rangePanel2.add(z_minLabel);
+            rangePanel2.add(z_min);
+            rangePanel2.add(z_maxLabel);
+            rangePanel2.add(z_max);
+        }
         rangePanel.add(rangePanel2);
 
 
@@ -163,7 +203,7 @@ public class View {
 
         JPanel densityPanel=new JPanel(new GridLayout(2, 2));
         JLabel densityLabel=new JLabel("Select density %  ");
-        JSlider slider=new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        JSlider slider=new JSlider(JSlider.HORIZONTAL, 1, 100, 50);
         slider.setMinorTickSpacing(5);
         slider.setMajorTickSpacing(25);
         slider.setPaintTicks(true);
@@ -184,54 +224,93 @@ public class View {
 
         mainPanel.add(buttonPanel);
 
-
     }
 
-
-
-
     private boolean getTextFromFields(){
-        if(x_min.getText().equals("")){
-            xmin=0.0;
-        }
-        else
-        {
+        if(!x_min.getText().equals("")){
             try{
                 xmin=Double.parseDouble(x_min.getText());
             }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Parameter xmin should be numeric",
+                        "Parameter xmin error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
-        if(x_max.getText().equals("")){
-            xmax=0.0;
-        }
-        else
-        {
+        if(!x_max.getText().equals("")){
             try{
                 xmax=Double.parseDouble(x_max.getText());
             }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Parameter xmax should be numeric",
+                        "Parameter xmax error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if(!y_min.getText().equals("")){
+            try{
+                ymin=Double.parseDouble(y_min.getText());
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Parameter ymin should be numeric",
+                        "Parameter ymin error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if(!y_max.getText().equals("")){
+            try{
+                ymax=Double.parseDouble(y_max.getText());
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Parameter ymax should be numeric",
+                        "Parameter ymax error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if(!z_min.getText().equals("")){
+            try{
+                zmin=Double.parseDouble(z_min.getText());
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Parameter zmin should be numeric",
+                        "Parameter zmin error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if(!z_max.getText().equals("")){
+            try{
+                zmax=Double.parseDouble(z_max.getText());
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(frame, "Parameter zmax should be numeric",
+                        "Parameter zmax error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
         return true;
     }
 
-    private boolean getTextFromFunction(){
+    private void getTextFromFunction(){
         if(functionField.getText().equals("")){
             func = "";
         }else{
             func = functionField.getText();
         }
-        return true;
 
     }
 
+    private void setText2(Generator gen){
+        pane.setText("x\ty\n");
+        for(int i=0;i<gen.arrayx.length;i++) {
+            pane.setText(String.format(pane.getText()+"%.3f\t%.3f\n", gen.arrayx[i], gen.arrayy[i]));
+        }
 
+    }
+    private void setText3(Generator gen){
+        pane.setText("x\ty\tz\n");
+        for(int i=0;i<gen.arrayx.length;i++) {
+            pane.setText(String.format(pane.getText()+"%.3f\t%.3f\t%.3f\n", gen.arrayx[i], gen.arrayy[i], gen.arrayz[i]));
+        }
 
-    private void setText(Generator gen){
-        System.out.println(gen.array.length);
-        for(int i=0;i<gen.array.length;i++) {
-            pane.setText(String.format(pane.getText()+"%.3f\t%.3f\n", gen.array[i], gen.array[i]));
+    }
+    private void setText4(Generator gen){
+        pane.setText("x\ty\tz\tt\n");
+        for(int i=0;i<gen.arrayx.length;i++) {
+            pane.setText(String.format(pane.getText()+"%.3f\t%.3f\t%.3f\t%.3f\n", gen.arrayx[i], gen.arrayy[i], gen.arrayz[i], gen.arrayt[i]));
         }
 
     }
@@ -300,17 +379,32 @@ public class View {
 
         public void actionPerformed(ActionEvent e) {
 
-            System.out.println(getTextFromFields());
-            System.out.println(getTextFromFunction());
-            if(!getTextFromFields()){
-                JOptionPane.showMessageDialog(frame, "WTF",
-                        "wArinnig!!!", JOptionPane.ERROR_MESSAGE);
-
+            if(!getTextFromFields())
+            {
+                return;
+            }
+            getTextFromFunction();
+            if(func == ""){
+                JOptionPane.showMessageDialog(frame, "Function has to be set",
+                        "Function error", JOptionPane.ERROR_MESSAGE);
             }else{
-                Generator generator = new Generator(xmin, xmax, density, func);
-                generator.eval();
-                //generator.generate();
-                setText(generator);
+                if(dim==2) {
+                    Generator generator = new Generator(xmin, xmax, density, func);
+                    generator.eval2();
+                    setText2(generator);
+                }
+                else if(dim==3)
+                {
+                    Generator generator = new Generator(xmin, xmax, ymin, ymax, density, func);
+                    generator.eval3();
+                    setText3(generator);
+                }
+                else if(dim==4)
+                {
+                    Generator generator = new Generator(xmin, xmax, ymin, ymax, zmin, zmax, density, func);
+                    generator.eval4();
+                    setText4(generator);
+                }
             }
         }
     }
@@ -318,10 +412,9 @@ public class View {
 
         public void actionPerformed (ActionEvent e){
             JComboBox cb = (JComboBox)e.getSource();
-            String dim = (String)cb.getSelectedItem();
-            int dim2 = Integer.parseInt(dim);
+            dim = (Integer)cb.getSelectedItem();
             frame.dispose();
-            new View(dim2);
+            new View(dim);
         }
     }
     class SliderListener implements ChangeListener {
@@ -329,7 +422,7 @@ public class View {
         public void stateChanged(ChangeEvent e) {
             JSlider source = (JSlider)e.getSource();
             if (!source.getValueIsAdjusting()) {
-                density = (int)source.getValue();
+                density = source.getValue();
             }
         }
     }
