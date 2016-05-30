@@ -2,7 +2,10 @@ package com.mownit.hubert.controller;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by Magda on 2016-05-09.
@@ -10,10 +13,16 @@ import java.io.*;
 public class Persister {
     private JFileChooser fc;
     private Component parent;
+   // View view;
+    String format="";
 
     public Persister(Component parent) {
         fc = new JFileChooser();
         this.parent = parent;
+       // view=new View(1);
+    }
+    public void setFormat(String format){
+        this.format=format;
     }
 
 
@@ -25,8 +34,10 @@ public class Persister {
             if (!file.exists()) {
 
                 try {
+                   // format=view.getFormat();
+
                     BufferedWriter writer = new BufferedWriter(
-                            new FileWriter(file.getAbsolutePath() + ".rtf"));
+                            new FileWriter(file.getAbsolutePath() + "."+format));
                     writer.write(text);
                     writer.close();
 

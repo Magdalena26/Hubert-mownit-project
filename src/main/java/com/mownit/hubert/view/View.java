@@ -3,10 +3,10 @@ package com.mownit.hubert.view;
 import com.mownit.hubert.controller.Generator;
 import com.mownit.hubert.controller.Persister;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,9 +33,12 @@ public class View {
     private Persister persister;
     private JMenuBar menubar;
     private JPanel mainPanel;
-    private static final int defaultWidth=400;
+    private static final int defaultWidth=870;
     private static final int defaultHeight=850;
     private static int defaultSize=18;
+    private JPanel innerPanel;
+    private JSplitPane splitPane;
+    String format;
 
     public View(int dim){
         this.dim=dim;
@@ -48,9 +51,11 @@ public class View {
         frame = new JFrame("Hubert & Eureqa - Data Generator");
         init();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+       // frame.pack();
+
         frame.setJMenuBar(menubar);
-        frame.add(panel);
+       // frame.add(panel);
+        frame.add(splitPane, BorderLayout.CENTER);
         BoxLayout boxLayout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
         frame.setLayout(boxLayout);
         frame.setSize(defaultWidth, defaultHeight);
@@ -60,35 +65,44 @@ public class View {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+    public String getFormat(){
+        return format;
+    }
 
     private void init(){
-
+        splitPane=new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         persister=new Persister(frame);
         panel=new JPanel(new GridLayout(2, 1));
         panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        JPanel innerPanel=new JPanel(new BorderLayout());
+        innerPanel=new JPanel(new BorderLayout());
 
         // JTextPane pane=new JTextPane();
         pane.setSize(200, 200);
         document=pane.getStyledDocument();
         //innerPanel.add(pane);
         innerPanel.add(new JScrollPane(pane));
-        panel.addMouseListener(new MouseAdapter(){});
+        innerPanel.setMinimumSize(new Dimension(500, 850));
+        splitPane.addMouseListener(new MouseAdapter(){});
 
         createMenuBar();
         createMainPanel();
-        panel.add(mainPanel);
-        panel.add(innerPanel);
+        //panel.add(mainPanel);
+        //panel.add(innerPanel);
+        splitPane.setLeftComponent(mainPanel);
+        splitPane.setRightComponent(innerPanel);
+        splitPane.setDividerLocation(.4f);
 
     }
 
     private void createMainPanel(){
         mainPanel=new JPanel();
-
+        mainPanel.setPreferredSize(new Dimension(300, 850));
         mainPanel.setBorder(new EmptyBorder(new Insets(10, 50, 50, 50)));
-        mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
-
+       mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+       // BoxLayout boxLayout1 = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
+       // mainPanel.setLayout(boxLayout1);
         Dimension dimension2 = new Dimension(20, 10);
 
         BorderLayout bl=new BorderLayout();
@@ -99,8 +113,8 @@ public class View {
         titleLabel.setFont(new Font("Consolas", Font.BOLD, 22));
 
         titlePanel.add(titleLabel);
-
-
+        JLabel l1 = new JLabel("<html><br><br></html>", SwingConstants.CENTER);
+        mainPanel.add(l1, BorderLayout.CENTER);
         mainPanel.add(titlePanel);
 
         JPanel formatPanel =new JPanel(new GridLayout(2, 2));
@@ -110,6 +124,7 @@ public class View {
         comboFormat.addItem("csv");
         comboFormat.addItem("tsv");
         comboFormat.setEditable(true);
+        comboFormat.addActionListener(new ComboFormatListener());
 
         formatPanel.add(formatLabel);
         formatPanel.add(comboFormat);
@@ -134,7 +149,7 @@ public class View {
         JLabel l = new JLabel("<html><br></html>", SwingConstants.CENTER);
         mainPanel.add(l);
 
-        JPanel rangePanel =new JPanel(new GridLayout(2, 2));
+        JPanel rangePanel =new JPanel(new GridLayout(2, 2, 2, 1));
         JLabel rangeLabel=new JLabel("Select range   ");
         x_min=new JTextField("0");
         x_max=new JTextField("0");
@@ -171,6 +186,7 @@ public class View {
         rangePanel2.add(x_min);
         rangePanel2.add(x_maxLabel);
         rangePanel2.add(x_max);
+
         if (dim==3 || dim==4)
         {
             rangePanel2.add(y_minLabel);
@@ -189,10 +205,12 @@ public class View {
 
 
         mainPanel.add(rangePanel);
-        JLabel l1 = new JLabel("<html><br></html>", SwingConstants.CENTER);
-        mainPanel.add(l1);
+        JLabel l3 = new JLabel("<html><br><br><br></html>", SwingConstants.CENTER);
+        mainPanel.add(l3);
+        mainPanel.add(l3);
 
-        JPanel functionPanel=new JPanel(new GridLayout(2, 2));
+        JPanel functionPanel=new JPanel(new GridLayout(2, 2, 0, 0));
+       // functionPanel.setPreferredSize(new Dimension(200, 80));
         JLabel functionLabel=new JLabel("Select function   ");
         functionField=new JTextField();
         functionField.setPreferredSize(new Dimension(100, 25));
@@ -202,6 +220,7 @@ public class View {
         mainPanel.add(functionPanel);
 
         JPanel densityPanel=new JPanel(new GridLayout(2, 2));
+        densityPanel.setPreferredSize(new Dimension(200, 90));
         JLabel densityLabel=new JLabel("Select density %  ");
         JSlider slider=new JSlider(JSlider.HORIZONTAL, 1, 100, 1);
         slider.setMinorTickSpacing(5);
@@ -218,6 +237,7 @@ public class View {
         mainPanel.add(densityPanel);
 
         JPanel buttonPanel=new JPanel(new GridLayout(2, 2));
+       // buttonPanel.setPreferredSize(new Dimension(150, 80));
         JButton button=new JButton("Generate data");
         button.addActionListener(new ButtonListener());
         buttonPanel.add(button);
@@ -425,6 +445,8 @@ public class View {
                 }
             }
         }
+
+
     }
     class ComboBoxDemo implements ActionListener {
 
@@ -435,6 +457,17 @@ public class View {
             new View(dim);
         }
     }
+
+    class ComboFormatListener implements ActionListener{
+
+        public void actionPerformed(ActionEvent e) {
+            JComboBox box=(JComboBox)e.getSource();
+            format=(String)box.getSelectedItem();
+            persister.setFormat(format);
+        }
+    }
+
+
     class SliderListener implements ChangeListener {
 
         public void stateChanged(ChangeEvent e) {
