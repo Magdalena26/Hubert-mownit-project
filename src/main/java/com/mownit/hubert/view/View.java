@@ -83,7 +83,7 @@ public class View {
         document=pane.getStyledDocument();
         //innerPanel.add(pane);
         innerPanel.add(new JScrollPane(pane));
-        innerPanel.setMinimumSize(new Dimension(500, 850));
+        innerPanel.setMinimumSize(new Dimension(400, 700));
         splitPane.addMouseListener(new MouseAdapter(){});
 
         createMenuBar();
@@ -332,23 +332,65 @@ public class View {
     }
 
     private void setText2(Generator gen){
-        pane.setText("x\ty\n");
+        pane.setText("#t,x\n");
         for(int i=0;i<gen.arrayx.length;i++) {
-            pane.setText(String.format(pane.getText()+"%.3f\t%.3f\n", gen.arrayx[i], gen.arrayy[i]));
+
+            String str=String.format("%.3f,\t%.3f\n", gen.arrayx[i], gen.arrayy[i]);
+            str=str.replace(",",".");
+
+            char[] new_str=str.toCharArray();
+            int index=findNthOccurence(new_str, 2);
+            new_str[index-1]=',';
+            str=String.valueOf(new_str);
+            pane.setText(pane.getText()+str);
         }
 
     }
+
+    private int findNthOccurence(char A[], int id){
+        int counter=0;
+        int i;
+        for(i=0;(i<A.length && counter<=(id-1));i++){
+            if(A[i]=='.')
+                counter++;
+
+        }
+        return i;
+    }
     private void setText3(Generator gen){
-        pane.setText("x\ty\tz\n");
+        pane.setText("#t,x,y\n");
         for(int i=0;i<gen.arrayx.length;i++) {
-            pane.setText(String.format(pane.getText()+"%.3f\t%.3f\t%.3f\n", gen.arrayx[i], gen.arrayy[i], gen.arrayz[i]));
+
+            String str=String.format("%.3f,\t%.3f,\t%.3f\n", gen.arrayx[i], gen.arrayy[i], gen.arrayz[i]);
+            str=str.replace(",",".");
+
+            char[] new_str=str.toCharArray();
+            int index=findNthOccurence(new_str, 2);
+            new_str[index-1]=',';
+            index=findNthOccurence(new_str, 3);
+            new_str[index-1]=',';
+            str=String.valueOf(new_str);
+            pane.setText(pane.getText()+str);
+
         }
 
     }
     private void setText4(Generator gen){
-        pane.setText("x\ty\tz\tt\n");
+        pane.setText("#t,x,y,z\n");
         for(int i=0;i<gen.arrayx.length;i++) {
-            pane.setText(String.format(pane.getText()+"%.3f\t%.3f\t%.3f\t%.3f\n", gen.arrayx[i], gen.arrayy[i], gen.arrayz[i], gen.arrayt[i]));
+            String str=String.format("%.3f,\t%.3f,\t%.3f,\t%.3f\n", gen.arrayx[i], gen.arrayy[i], gen.arrayz[i], gen.arrayt[i]);
+            str=str.replace(",",".");
+
+            char[] new_str=str.toCharArray();
+            int index=findNthOccurence(new_str, 2);
+            new_str[index-1]=',';
+            index=findNthOccurence(new_str, 3);
+            new_str[index-1]=',';
+            index=findNthOccurence(new_str, 4);
+            new_str[index-1]=',';
+            str=String.valueOf(new_str);
+            pane.setText(pane.getText()+str);
+
         }
 
     }
