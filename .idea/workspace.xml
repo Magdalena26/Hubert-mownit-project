@@ -677,7 +677,7 @@
       <workItem from="1465290978812" duration="1692000" />
       <workItem from="1465398240356" duration="358000" />
       <workItem from="1465403291080" duration="923000" />
-      <workItem from="1465404277546" duration="2076000" />
+      <workItem from="1465404277546" duration="2090000" />
     </task>
     <task id="LOCAL-00001" summary="1dim">
       <created>1464096207471</created>
@@ -739,11 +739,17 @@
       <option name="project" value="LOCAL" />
       <updated>1464612773305</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="jar added">
+      <created>1465406366398</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1465406366398</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54366000" />
+    <option name="totallyTimeSpent" value="54380000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1919" height="1055" extended-state="0" />
@@ -793,7 +799,8 @@
     <MESSAGE value="4dim fully" />
     <MESSAGE value="4dim fully+error check" />
     <MESSAGE value="format and layout changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="format and layout changes" />
+    <MESSAGE value="jar added" />
+    <option name="LAST_COMMIT_MESSAGE" value="jar added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
